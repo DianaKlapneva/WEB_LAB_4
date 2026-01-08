@@ -22,6 +22,11 @@ window.onload = async function() {
         
         return params;
         
-    } 
+    } catch (error) {
+
+        console.error('Ошибка:', error);
+        
+        return null;
+    }
     
 };
