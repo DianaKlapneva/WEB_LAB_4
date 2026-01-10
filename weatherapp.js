@@ -33,21 +33,56 @@ window.onload = async function() {
             }, 60000);
         });
         
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
         const params = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            accuracy: position.coords.accuracy,
-            timestamp: new Date().toLocaleTimeString()
+            latitude: lat,
+            longitude: lon,
         };
         
-        console.log('получена геолокация');
+        console.log(`Координаты: ${lat}, ${lon}`);
         localStorage.setItem('lastGeolocation', JSON.stringify(params));
-        console.log(params);
-        return params;
+        await getWeatherForCoordinates(lat, lon);
         
     } catch (error) {
         console.error('не получена геолокация', error.message);
+    }
+
+    async function getWeatherForCoordinates(latitude, longitude) {
+    try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&timezone=auto`;
         
-        return null;
+        const response = await fetch(url);
+        const weatherData = await response.json();
+        
+        if (weatherData.current && weatherData.current.temperature_2m !== undefined) {
+            const temperature = weatherData.current.temperature_2m;
+            
+            MakeTemperatureElement(`${temperature.toFixed(1)}°C`);
+            else {
+                createTemperatureElement('Нет данных о погоде!');
+            }
+        }
+        
+    } catch (error) {
+        console.error('не получили погоду', error);
+        
+        const tempElement = document.getElementById('temperature');
+        if (tempElement) {
+            tempElement.textContent = 'Ошибка';
+        }
+    }
+}
+
+    function MakeTemperatureElement(text) {   
+        let tempElement = document.getElementById('temperature');
+        
+        if (!tempElement) {
+            tempElement = document.createElement('div');
+            tempElement.id = 'temperature';
+            document.body.appendChild(tempElement);
+        }
+        tempElement.textContent = text;
     }
 };
