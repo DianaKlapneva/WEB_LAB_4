@@ -42,7 +42,7 @@ window.onload = async function() {
         
         console.log('получена геолокация');
         localStorage.setItem('lastGeolocation', JSON.stringify(params));
-        
+        console.log(params);
         return params;
         
     } catch (error) {
