@@ -1,6 +1,5 @@
 window.onload = async function() {
     try {
-        console.log('старт');
         
         localStorage.removeItem('lastGeolocation');
         
@@ -41,12 +40,12 @@ window.onload = async function() {
             longitude: lon,
         };
         
-        console.log(`Координаты: ${lat}, ${lon}`);
+
         localStorage.setItem('lastGeolocation', JSON.stringify(params));
         await getWeatherForCoordinates(lat, lon);
         
     } catch (error) {
-        console.error('не получена геолокация', error.message);
+        MakeTemperatureElement('Не получена геолокация');
     }
 
      async function getWeatherForCoordinates(latitude, longitude) {
@@ -65,7 +64,6 @@ window.onload = async function() {
             }
             
         } catch (error) {
-            console.error('не получили погоду', error);
             MakeTemperatureElement('Ошибка загрузки погоды!');
         }
     }
