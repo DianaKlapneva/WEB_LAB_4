@@ -60,10 +60,10 @@ window.onload = async function() {
             const temperature = weatherData.current.temperature_2m;
             
             MakeTemperatureElement(`${temperature.toFixed(1)}°C`);
-            else {
+            
+        } else {
                 createTemperatureElement('Нет данных о погоде!');
             }
-        }
         
     } catch (error) {
         console.error('не получили погоду', error);
