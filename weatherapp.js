@@ -49,31 +49,26 @@ window.onload = async function() {
         console.error('не получена геолокация', error.message);
     }
 
-    async function getWeatherForCoordinates(latitude, longitude) {
-    try {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&timezone=auto`;
-        
-        const response = await fetch(url);
-        const weatherData = await response.json();
-        
-        if (weatherData.current && weatherData.current.temperature_2m !== undefined) {
-            const temperature = weatherData.current.temperature_2m;
+     async function getWeatherForCoordinates(latitude, longitude) {
+        try {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&timezone=auto`;
             
-            MakeTemperatureElement(`${temperature.toFixed(1)}°C`);
+            const response = await fetch(url);
+            const weatherData = await response.json();
             
-        } else {
-                createTemperatureElement('Нет данных о погоде!');
+            if (weatherData.current && weatherData.current.temperature_2m !== undefined) {
+                const temperature = weatherData.current.temperature_2m;
+                
+                MakeTemperatureElement(`${temperature.toFixed(1)}°C`);
+            } else {
+                MakeTemperatureElement('Нет данных о погоде!');
             }
-        
-    } catch (error) {
-        console.error('не получили погоду', error);
-        
-        const tempElement = document.getElementById('temperature');
-        if (tempElement) {
-            tempElement.textContent = 'Ошибка';
+            
+        } catch (error) {
+            console.error('не получили погоду', error);
+            MakeTemperatureElement('Ошибка загрузки погоды!');
         }
     }
-}
 
     function MakeTemperatureElement(text) {   
         let tempElement = document.getElementById('temperature');
