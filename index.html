@@ -3,21 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Приложение для прогноза погоды">
-    <title>Прогноз погоды</title>
-    <link rel="stylesheet" href="style.css"/>
-    <link rel="icon" type="image/png" href="weather_sticks_together.png">
+    <title>Погода</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <script src="weatherapp.js" ></script>
-    <div class="container">  
-        <h1 class="app-title">Погода</h1>     
-        <button  class="button" id="restart-btn">Обновить</button>
-        <div class="cities-container">
+    <div class="container">
+        <header>
+            <h1>Узнать погоду на три дня вперед</h1>
+        </header>
+        
+        <div id="current-location" class="current-location">
+            <div class="location-info">
+                <h2 id="current-location-name">Текущее местоположение</h2>
+            </div>
+            <div class="current-weather">
+                <div class="temp-main" id="current-temp">--°C</div>
+                <div class="weather-desc" id="current-desc">Загрузка...</div>
+            </div>
         </div>
-
-
-    </div>   
-   
+        
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Определяем ваше местоположение...</p>
+        </div>
+        
+        <div id="permission-denied" class="permission-denied" style="display: none;">
+            <h3>Доступ к геолокации отклонен!</h3>
+            <p>Пожалуйста, добавьте город вручную</p>
+        </div>
+        
+        <div id="forecast-container" class="forecast-container" style="display: none;"></div>
+        
+        <div class="add-city-section">
+            <h3>Добавить город</h3>
+            <div class="city-form">
+                <select id="city-select" class="city-select">
+                    <option value="">Выберите город</option>
+                    <option value="Москва">Москва</option>
+                    <option value="Санкт-Петербург">Санкт-Петербург</option>
+                    <option value="Нижний Новгород">Нижний Новгород</option>
+                    <option value="Казань">Казань</option>
+                    <option value="Екатеринбург">Екатеринбург</option>
+                    <option value="Новосибирск">Новосибирск</option>
+                </select>
+                <button id="add-city-btn" class="add-btn">
+                    Добавить
+                </button>
+            </div>
+            <div id="cities-container" class="cities-grid"></div>
+            <div id="cities-empty" class="empty-state" style="display: none;">
+                <p>Вы еще не добавили ни одного города</p>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="update-btn" class="update-btn">Обновить все</button>
+            <button id="location-btn" class="location-btn">Определить местоположение</button>
+        </div>
+        
+        <div id="message-container"></div>
+    </div>
+    
+    <script src="weatherapp.js"></script>
 </body>
 </html>
