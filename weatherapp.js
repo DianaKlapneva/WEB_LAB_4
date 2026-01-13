@@ -22,7 +22,6 @@ let state = {
 
 async function getWeather() {
     try {
-        console.log("Запрашиваем геолокацию...");
         showLoading(true);
         
         const position = await getCurrentPositionWithTimeout();
@@ -39,7 +38,6 @@ async function getWeather() {
         showMessage("Погода обновлена!", "success");
         
     } catch (error) {
-        console.error("Ошибка геолокации:", error);
         
         document.getElementById('permission-denied').style.display = 'block';
         showMessage("Разрешите доступ к геолокации или добавьте город вручную", "error");
@@ -107,7 +105,6 @@ async function getWeatherForLocation(location, isCurrentLocation = false) {
         return weatherData;
         
     } catch (error) {
-        console.error("Ошибка получения погоды:", error);
         
         if (isCurrentLocation) {
             document.getElementById('current-temp').textContent = '--°C';
@@ -137,7 +134,6 @@ async function showThreeDayForecast(lat, lon) {
         updateForecastUI(forecastData);
         
     } catch (error) {
-        console.error("Ошибка прогноза:", error);
         showMessage("Не удалось загрузить прогноз", "error");
     }
 }
@@ -223,8 +219,7 @@ function updateForecastUI(forecastData) {
 async function showCityForecast(cityName, lat, lon) {
     try {
         const url = `${CityData.apiEndpoint}?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max&timezone=auto&forecast_days=${CityData.forecastDays}`;
-        
-        console.log(`Запрашиваем прогноз для города ${cityName}:`, lat, lon);
+
         
         const response = await fetch(url);
         
@@ -274,11 +269,10 @@ async function showCityForecast(cityName, lat, lon) {
                 descElement.textContent = getWeatherDescription(weatherCode);
             }
         }
-        
-        console.log(`Прогноз для города ${cityName} успешно отображен`);
+
         
     } catch (error) {
-        console.error(`Ошибка при загрузке прогноза для города ${cityName}:`, error);
+
         
         for (let i = 0; i < CityData.forecastDays; i++) {
             const forecastDay = document.getElementById(`forecast-day-${cityName.replace(/\s+/g, '-')}-${i}`);
@@ -337,7 +331,7 @@ async function addCity() {
         showMessage(`Город ${cityName} добавлен`, "success");
         
     } catch (error) {
-        console.error("Ошибка загрузки погоды для города:", error);
+        //silent error handling тк не загрузилось и ладно
     }
     
     select.value = '';
@@ -555,7 +549,7 @@ async function updateAllWeather() {
             document.getElementById('permission-denied').style.display = 'none';
             
         } catch (geolocationError) {
-            console.error("Не удалось обновить геолокацию:", geolocationError);
+            
             
             if (state.currentLocation) {
                 await getWeatherForLocation(state.currentLocation, true);
@@ -577,7 +571,7 @@ async function updateAllWeather() {
                     });
                     await showCityForecast(cityName, coords.lat, coords.lon);
                 } catch (cityError) {
-                    console.error(`Ошибка обновления города ${cityName}:`, cityError);
+                    //silent error handling тк не загрузилось и ладно
                 }
             }
         }
@@ -585,7 +579,6 @@ async function updateAllWeather() {
         showMessage("Вся погода обновлена!", "success");
         
     } catch (error) {
-        console.error("Ошибка обновления:", error);
         showMessage("Ошибка при обновлении погоды", "error");
     } finally {
         showLoading(false);
@@ -685,7 +678,6 @@ function getWeatherIcon(code) {
 
 
 function initApp() {
-    console.log("Приложение запускается...");
     
     const addCityBtn = document.getElementById('add-city-btn');
     if (addCityBtn) {
