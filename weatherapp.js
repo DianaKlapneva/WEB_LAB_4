@@ -594,6 +594,7 @@ async function updateAllWeather() {
         updateBtn.disabled = false;
     }
 }
+}
 
 
 async function retryGeolocation() {
