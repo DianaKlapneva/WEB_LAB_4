@@ -153,7 +153,10 @@ function updateCurrentLocationUI(location, weatherData) {
 
 function updateForecastUI(forecastData) {
     const container = document.getElementById('forecast-container');
-    container.innerHTML = '';
+    
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
     
     const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
     
@@ -173,7 +176,6 @@ function updateForecastUI(forecastData) {
         const weatherCode = forecastData.daily.weather_code[i];
         const temp = forecastData.daily.temperature_2m_max[i];
         
-
         const dayHeader = document.createElement('div');
         dayHeader.className = 'day-header';
         
@@ -197,18 +199,15 @@ function updateForecastUI(forecastData) {
         dayHeader.appendChild(dayInfo);
         dayHeader.appendChild(weatherIcon);
         
-
         const tempDisplay = document.createElement('div');
         tempDisplay.className = 'temp-display';
         tempDisplay.textContent = `${temp.toFixed(1)}°C`;
         
-
         const weatherDesc = document.createElement('div');
         weatherDesc.style.textAlign = 'center';
         weatherDesc.style.color = '#666';
         weatherDesc.textContent = getWeatherDescription(weatherCode);
         
-
         dayCard.appendChild(dayHeader);
         dayCard.appendChild(tempDisplay);
         dayCard.appendChild(weatherDesc);
@@ -488,7 +487,10 @@ async function updateCityCardUI(cityName, weatherData) {
 
 function loadAddedCities() {
     const container = document.getElementById('cities-container');
-    container.innerHTML = '';
+    
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
     
     if (state.addedCities.length === 0) {
         document.getElementById('cities-empty').style.display = 'block';
@@ -511,19 +513,20 @@ function loadAddedCities() {
     });
 }
 
-//пустышка
+
 function updateEmptyState() {
     const emptyState = document.getElementById('cities-empty');
     const container = document.getElementById('cities-container');
     
     if (state.addedCities.length === 0) {
         emptyState.style.display = 'block';
-        container.innerHTML = '';
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
     } else {
         emptyState.style.display = 'none';
     }
 }
-
 
 function saveCitiesToStorage() {
     localStorage.setItem('addedCities', JSON.stringify(state.addedCities));
@@ -613,8 +616,10 @@ function showLoading(show) {
 function showMessage(text, type = "info") {
     const container = document.getElementById('message-container');
     if (!container) return;
-    
-    container.innerHTML = '';
+
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
     
     const messageDiv = document.createElement('div');
     
