@@ -296,10 +296,6 @@ async function showCityForecast(cityName, lat, lon) {
 
 
 
-
-
-
-
 async function addCity() {
     const select = document.getElementById('city-select');
     const cityName = select.value;
