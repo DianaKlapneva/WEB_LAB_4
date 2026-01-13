@@ -200,7 +200,7 @@ h1 i {
 
 .cities-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(3, 1fr); 
     gap: 20px;
     margin-top: 20px;
 }
@@ -291,10 +291,6 @@ h1 i {
     animation: spin 1.5s linear infinite;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
 
 .controls {
     display: flex;
@@ -305,7 +301,7 @@ h1 i {
     border-top: 2px solid #eee;
 }
 
-.update-btn, .location-btn {
+.update-btn {
     padding: 12px 25px;
     border: none;
     border-radius: 10px;
@@ -323,17 +319,14 @@ h1 i {
     color: white;
 }
 
-.location-btn {
-    background: linear-gradient(135deg, #9b59b6, #8e44ad);
-    color: white;
-}
 
-.update-btn:hover, .location-btn:hover {
+
+.update-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.update-btn:disabled, .location-btn:disabled {
+.update-btn:disabled :disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
@@ -506,7 +499,7 @@ h1 i {
         padding-top: 25px;
     }
     
-    .update-btn, .location-btn {
+    .update-btn {
         padding: 11px 22px;
         font-size: 0.95rem;
     }
@@ -676,7 +669,7 @@ h1 i {
         padding-top: 20px;
     }
     
-    .update-btn, .location-btn {
+    .update-btn {
         padding: 10px 20px;
         font-size: 0.9rem;
         justify-content: center;
