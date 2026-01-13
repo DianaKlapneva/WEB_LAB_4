@@ -535,7 +535,6 @@ function getWeatherIcon(code) {
     if (code >= 71 && code <= 77) return "❄️";
     if (code >= 80 && code <= 86) return "🌦️";
     if (code >= 95 && code <= 99) return "⛈️";
-    return "🌤️";
 }
 
 
