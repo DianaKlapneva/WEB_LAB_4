@@ -543,7 +543,6 @@ async function updateAllWeather() {
         state.hasGeolocationPermission = true;
         
         try {
-
             const position = await getCurrentPositionWithTimeout();
             
             const lat = position.coords.latitude;
@@ -551,9 +550,7 @@ async function updateAllWeather() {
             
             state.currentLocation = { lat, lon, name: "Текущее местоположение" };
             
-
             await getWeatherForLocation(state.currentLocation, true);
-
             await showThreeDayForecast(lat, lon);
             
             document.getElementById('permission-denied').style.display = 'none';
@@ -573,12 +570,17 @@ async function updateAllWeather() {
         for (const cityName of state.addedCities) {
             const coords = CityData.cityCoordinates[cityName];
             if (coords) {
-                await getWeatherForLocation({
-                    name: cityName,
-                    lat: coords.lat,
-                    lon: coords.lon
-                });
-                await showCityForecast(cityName, coords.lat, coords.lon);
+                try {
+                    await getWeatherForLocation({
+                        name: cityName,
+                        lat: coords.lat,
+                        lon: coords.lon
+                    });
+                    await showCityForecast(cityName, coords.lat, coords.lon);
+                } catch (cityError) {
+                    console.error(`Ошибка обновления города ${cityName}:`, cityError);
+                }
+            }
         }
         
         showMessage("Вся погода обновлена!", "success");
@@ -593,7 +595,6 @@ async function updateAllWeather() {
         updateBtn.textContent = 'Обновить все';
         updateBtn.disabled = false;
     }
-}
 }
 
 
