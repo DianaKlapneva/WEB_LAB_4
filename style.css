@@ -401,3 +401,304 @@ h1 i {
         flex-direction: column;
     }
 }
+
+
+
+
+/* планшеты */
+@media (max-width: 1024px) {
+    .container {
+        max-width: 900px;
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        gap: 12px;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .current-location {
+        padding: 16px;
+        margin-bottom: 25px;
+    }
+    
+    .location-info h2 {
+        font-size: 1.5rem;
+    }
+    
+    .temp-main {
+        font-size: 2.5rem;
+    }
+    
+    .weather-desc {
+        font-size: 1.1rem;
+    }
+    
+    .forecast-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+    
+    .day-forecast {
+        padding: 18px;
+    }
+    
+    .day-name {
+        font-size: 1.2rem;
+    }
+    
+    .temp-display {
+        font-size: 2rem;
+    }
+    
+    .weather-icon {
+        font-size: 2.5rem;
+    }
+    
+    .add-city-section {
+        padding: 22px;
+        margin-top: 25px;
+    }
+    
+    .add-city-section h3 {
+        font-size: 1.4rem;
+    }
+    
+    .city-form {
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+    
+    .city-select {
+        padding: 11px 14px;
+        font-size: 0.95rem;
+    }
+    
+    .add-btn {
+        padding: 11px 22px;
+        font-size: 0.95rem;
+    }
+    
+    .cities-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+    
+    .city-card {
+        padding: 18px;
+    }
+    
+    .city-name {
+        font-size: 1.2rem;
+    }
+    
+    .city-temp {
+        font-size: 2.2rem;
+    }
+    
+    .controls {
+        gap: 18px;
+        margin-top: 25px;
+        padding-top: 25px;
+    }
+    
+    .update-btn, .location-btn {
+        padding: 11px 22px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .container {
+        max-width: 800px;
+        padding: 18px;
+    }
+    
+    .forecast-container {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    
+    .cities-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+/* смартфоны */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    .container {
+        padding: 16px;
+        border-radius: 15px;
+    }
+    
+    header {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+    }
+    
+    h1 {
+        font-size: 1.6rem;
+        gap: 10px;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .current-location {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .location-info h2 {
+        font-size: 1.4rem;
+        justify-content: center;
+    }
+    
+    .current-weather {
+        text-align: center;
+    }
+    
+    .temp-main {
+        font-size: 2.2rem;
+    }
+    
+    .weather-desc {
+        font-size: 1rem;
+    }
+    
+    .forecast-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .day-forecast {
+        padding: 16px;
+    }
+    
+    .day-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .day-name {
+        font-size: 1.1rem;
+    }
+    
+    .date {
+        font-size: 0.85rem;
+    }
+    
+    .temp-display {
+        font-size: 1.8rem;
+        margin: 12px 0;
+    }
+    
+    .weather-icon {
+        font-size: 2.2rem;
+        margin: 8px 0;
+    }
+    
+    .add-city-section {
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 12px;
+    }
+    
+    .add-city-section h3 {
+        font-size: 1.3rem;
+        justify-content: center;
+    }
+    
+    .city-form {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .city-select {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .add-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .cities-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .city-card {
+        padding: 16px;
+    }
+    
+    .city-name {
+        font-size: 1.1rem;
+    }
+    
+    .city-temp {
+        font-size: 2rem;
+    }
+    
+    .loading {
+        padding: 30px;
+        gap: 15px;
+    }
+    
+    .loading i {
+        font-size: 2rem;
+    }
+    
+    .controls {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+    
+    .update-btn, .location-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .error-message, .success-message {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+    
+    .empty-state {
+        padding: 30px;
+    }
+    
+    .empty-state i {
+        font-size: 2.5rem;
+    }
+    
+    .empty-hint {
+        font-size: 0.8rem;
+    }
+}
+
+
