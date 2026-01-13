@@ -538,12 +538,38 @@ async function updateAllWeather() {
         const originalText = updateBtn.textContent;
         updateBtn.textContent = 'Обновление...';
         updateBtn.disabled = true;
+
+        state.currentLocation = null;
+        state.hasGeolocationPermission = true;
         
-        if (state.currentLocation) {
+        try {
+
+            const position = await getCurrentPositionWithTimeout();
+            
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            
+            state.currentLocation = { lat, lon, name: "Текущее местоположение" };
+            
+
             await getWeatherForLocation(state.currentLocation, true);
-            await showThreeDayForecast(state.currentLocation.lat, state.currentLocation.lon);
+
+            await showThreeDayForecast(lat, lon);
+            
+            document.getElementById('permission-denied').style.display = 'none';
+            
+        } catch (geolocationError) {
+            console.error("Не удалось обновить геолокацию:", geolocationError);
+            
+            if (state.currentLocation) {
+                await getWeatherForLocation(state.currentLocation, true);
+                await showThreeDayForecast(state.currentLocation.lat, state.currentLocation.lon);
+            } else {
+                document.getElementById('permission-denied').style.display = 'block';
+                showMessage("Доступ к геолокации отклонен! Пожалуйста, добавьте город вручную ", "error");
+            }
         }
-        
+
         for (const cityName of state.addedCities) {
             const coords = CityData.cityCoordinates[cityName];
             if (coords) {
@@ -553,7 +579,6 @@ async function updateAllWeather() {
                     lon: coords.lon
                 });
                 await showCityForecast(cityName, coords.lat, coords.lon);
-            }
         }
         
         showMessage("Вся погода обновлена!", "success");
