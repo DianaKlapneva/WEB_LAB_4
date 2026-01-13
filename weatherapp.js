@@ -220,8 +220,79 @@ function updateForecastUI(forecastData) {
 
 
 
+//то же самое что и для осн локации
+async function showCityForecast(cityName, lat, lon) {
+    try {
+        const url = `${CityData.apiEndpoint}?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max&timezone=auto&forecast_days=${CityData.forecastDays}`;
+        
+        console.log(`Запрашиваем прогноз для города ${cityName}:`, lat, lon);
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`Ошибка API при запросе прогноза: ${response.status}`);
+        }
+        
+        const forecastData = await response.json();
+        
+        if (!forecastData.daily) {
+            throw new Error("Нет данных прогноза для города");
+        }
+        
+        const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+        
+        for (let i = 0; i < CityData.forecastDays; i++) {
+            const date = new Date();
+            date.setDate(date.getDate() + i);
+            
+            const weatherCode = forecastData.daily.weather_code[i];
+            const temp = forecastData.daily.temperature_2m_max[i];
+            const dayName = days[date.getDay()];
+            const dayLabel = i === 0 ? 'Сегодня' : i === 1 ? 'Завтра' : dayName;
+            
 
+            const forecastDay = document.getElementById(`forecast-day-${cityName.replace(/\s+/g, '-')}-${i}`);
+            if (!forecastDay) continue;
+            
 
+            const dayNameElement = forecastDay.querySelector('.forecast-day-name');
+            if (dayNameElement) {
+                dayNameElement.textContent = dayLabel;
+            }
+
+            const tempElement = forecastDay.querySelector('.forecast-temp');
+            if (tempElement) {
+                tempElement.textContent = `${temp.toFixed(1)}°`;
+            }
+
+            const iconElement = forecastDay.querySelector('.forecast-icon');
+            if (iconElement) {
+                iconElement.textContent = getWeatherIcon(weatherCode);
+            }
+            
+            const descElement = forecastDay.querySelector('.forecast-desc');
+            if (descElement) {
+                descElement.textContent = getWeatherDescription(weatherCode);
+            }
+        }
+        
+        console.log(`Прогноз для города ${cityName} успешно отображен`);
+        
+    } catch (error) {
+        console.error(`Ошибка при загрузке прогноза для города ${cityName}:`, error);
+        
+        for (let i = 0; i < CityData.forecastDays; i++) {
+            const forecastDay = document.getElementById(`forecast-day-${cityName.replace(/\s+/g, '-')}-${i}`);
+            if (forecastDay) {
+                const tempElement = forecastDay.querySelector('.forecast-temp');
+                if (tempElement) {
+                    tempElement.textContent = 'Ошибка';
+                    tempElement.style.color = '#e74c3c';
+                }
+            }
+        }
+    }
+}
 
 
 
@@ -372,6 +443,8 @@ function removeCity(cityName) {
     state.addedCities = state.addedCities.filter(city => city !== cityName);
     saveCitiesToStorage();
     
+    clearCityForecast(cityName);
+    
     const card = document.getElementById(`city-${cityName.replace(/\s+/g, '-')}`);
     if (card) {
         card.remove();
@@ -381,8 +454,17 @@ function removeCity(cityName) {
     updateEmptyState();
 }
 
+function clearCityForecast(cityName) {
+    for (let i = 0; i < CityData.forecastDays; i++) {
+        const forecastDay = document.getElementById(`forecast-day-${cityName.replace(/\s+/g, '-')}-${i}`);
+        if (forecastDay) {
+            forecastDay.remove();
+        }
+    }
+}
 
-function updateCityCardUI(cityName, weatherData) {
+
+async function updateCityCardUI(cityName, weatherData) {
     const temp = weatherData.current.temperature_2m;
     const weatherCode = weatherData.current.weather_code;
     
@@ -395,6 +477,11 @@ function updateCityCardUI(cityName, weatherData) {
     
     if (descElement) {
         descElement.textContent = getWeatherDescription(weatherCode);
+    }
+    
+    const coords = CityData.cityCoordinates[cityName];
+    if (coords) {
+        await showCityForecast(cityName, coords.lat, coords.lon);
     }
 }
 
@@ -454,6 +541,7 @@ async function updateAllWeather() {
         
         if (state.currentLocation) {
             await getWeatherForLocation(state.currentLocation, true);
+            await showThreeDayForecast(state.currentLocation.lat, state.currentLocation.lon);
         }
         
         for (const cityName of state.addedCities) {
@@ -464,6 +552,7 @@ async function updateAllWeather() {
                     lat: coords.lat,
                     lon: coords.lon
                 });
+                await showCityForecast(cityName, coords.lat, coords.lon);
             }
         }
         
