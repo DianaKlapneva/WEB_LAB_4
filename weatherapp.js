@@ -89,10 +89,7 @@ async function getWeatherForLocation(location, isCurrentLocation = false) {
         const url = `${CityData.apiEndpoint}?latitude=${location.lat}&longitude=${location.lon}&current=temperature_2m,weather_code&timezone=auto&forecast_days=1`;
         
         const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error(`Ошибка API: ${response.status}`);
-        }
+      
         
         const weatherData = await response.json();
         
@@ -112,7 +109,7 @@ async function getWeatherForLocation(location, isCurrentLocation = false) {
         }
         
         showMessage(`Ошибка загрузки погоды для ${location.name}`, "error");
-        throw error;
+        
     }
 }
 
@@ -124,9 +121,7 @@ async function showThreeDayForecast(lat, lon) {
         const response = await fetch(url);
         const forecastData = await response.json();
         
-        if (!forecastData.daily) {
-            throw new Error("Нет данных прогноза");
-        }
+       
         
         document.getElementById('forecast-container').style.display = 'grid';
         document.getElementById('permission-denied').style.display = 'none';
@@ -222,17 +217,10 @@ async function showCityForecast(cityName, lat, lon) {
 
         
         const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error(`Ошибка API при запросе прогноза: ${response.status}`);
-        }
+
         
         const forecastData = await response.json();
-        
-        if (!forecastData.daily) {
-            throw new Error("Нет данных прогноза для города");
-        }
-        
+
         const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
         
         for (let i = 0; i < CityData.forecastDays; i++) {
