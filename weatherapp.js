@@ -563,3 +563,5 @@ function initApp() {
         getWeather();
     }, 500);
 }
+
+window.addEventListener('DOMContentLoaded', initApp);
