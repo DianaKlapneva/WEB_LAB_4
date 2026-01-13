@@ -218,6 +218,18 @@ function updateForecastUI(forecastData) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 async function addCity() {
     const select = document.getElementById('city-select');
     const cityName = select.value;
@@ -294,7 +306,7 @@ function createCityCard(cityName) {
     cityHeader.appendChild(cityNameElement);
     cityHeader.appendChild(removeBtn);
     
-    // Погода
+
     const cityWeather = document.createElement('div');
     cityWeather.className = 'city-weather';
     
@@ -310,9 +322,47 @@ function createCityCard(cityName) {
     cityWeather.appendChild(cityTemp);
     cityWeather.appendChild(cityDesc);
     
-    // Сборка
+
+    const cityForecastContainer = document.createElement('div');
+    cityForecastContainer.className = 'city-forecast';
+    cityForecastContainer.id = `forecast-${cityName.replace(/\s+/g, '-')}`;
+
+    for (let i = 0; i < CityData.forecastDays; i++) {
+        const forecastDay = document.createElement('div');
+        forecastDay.className = 'forecast-day';
+        forecastDay.id = `forecast-day-${cityName.replace(/\s+/g, '-')}-${i}`;
+        
+
+        const dayNameElement = document.createElement('div');
+        dayNameElement.className = 'forecast-day-name';
+        dayNameElement.textContent = '--';
+        
+
+        const tempElement = document.createElement('div');
+        tempElement.className = 'forecast-temp';
+        tempElement.textContent = '--°';
+        
+
+        const iconElement = document.createElement('div');
+        iconElement.className = 'forecast-icon';
+        iconElement.textContent = '☁️';
+
+        const descElement = document.createElement('div');
+        descElement.className = 'forecast-desc';
+        descElement.textContent = '--';
+        
+        forecastDay.appendChild(dayNameElement);
+        forecastDay.appendChild(tempElement);
+        forecastDay.appendChild(iconElement);
+        forecastDay.appendChild(descElement);
+        
+        cityForecastContainer.appendChild(forecastDay);
+    }
+    
+
     card.appendChild(cityHeader);
     card.appendChild(cityWeather);
+    card.appendChild(cityForecastContainer);
     
     container.appendChild(card);
 }
