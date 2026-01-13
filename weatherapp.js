@@ -598,27 +598,6 @@ async function updateAllWeather() {
 }
 
 
-async function retryGeolocation() {
-    try {
-        showLoading(true);
-        
-        const locationBtn = document.getElementById('location-btn');
-        locationBtn.disabled = true;
-        
-        await getWeather();
-        
-        document.getElementById('permission-denied').style.display = 'none';
-        
-    } catch (error) {
-        console.error("Не удалось определить местоположение:", error);
-        showMessage("Не удалось определить местоположение", "error");
-    } finally {
-        showLoading(false);
-        
-        const locationBtn = document.getElementById('location-btn');
-        locationBtn.disabled = false;
-    }
-}
 
 
 function showLoading(show) {
@@ -717,10 +696,6 @@ function initApp() {
         updateBtn.addEventListener('click', updateAllWeather);
     }
     
-    const locationBtn = document.getElementById('location-btn');
-    if (locationBtn) {
-        locationBtn.addEventListener('click', retryGeolocation);
-    }
     
     loadAddedCities();
     
