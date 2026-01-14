@@ -37,15 +37,14 @@
         <div class="add-city-section">
             <h3>Добавить город</h3>
             <div class="city-form">
-                <select id="city-select" class="city-select">
-                    <option value="">Выберите город</option>
-                    <option value="Москва">Москва</option>
-                    <option value="Санкт-Петербург">Санкт-Петербург</option>
-                    <option value="Нижний Новгород">Нижний Новгород</option>
-                    <option value="Казань">Казань</option>
-                    <option value="Екатеринбург">Екатеринбург</option>
-                    <option value="Новосибирск">Новосибирск</option>
-                </select>
+                <div class="autocomplete-wrapper">
+                    <input type="text" 
+                        id="city-input" 
+                        placeholder="Введите название города..."
+                        autocomplete="off"
+                        class="city-input">
+                    <div id="autocomplete-list" class="autocomplete-list"></div>
+                </div>
                 <button id="add-city-btn" class="add-btn">
                     Добавить
                 </button>

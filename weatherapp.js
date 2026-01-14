@@ -278,12 +278,21 @@ async function showCityForecast(cityName, lat, lon) {
 
 
 
-async function addCity() {
-    const select = document.getElementById('city-select');
-    const cityName = select.value;
+async function addCityWithAutocomplete() {
+    const cityInput = document.getElementById('city-input');
+    const autocompleteList = document.getElementById('autocomplete-list');
+    
+    if (!cityInput) return;
+    
+    const cityName = cityInput.value.trim();
     
     if (!cityName) {
-        showMessage("Выберите город из списка", "error");
+        showMessage("Введите название города", "error");
+        return;
+    }
+
+    if (!CityData.cityCoordinates[cityName]) {
+        showMessage("Этот город не поддерживается. Выберите город из списка.", "error");
         return;
     }
     
@@ -302,11 +311,6 @@ async function addCity() {
     
     const coords = CityData.cityCoordinates[cityName];
     
-    if (!coords) {
-        showMessage("Координаты города не найдены", "error");
-        return;
-    }
-    
     createCityCard(cityName);
     
     try {
@@ -319,11 +323,93 @@ async function addCity() {
         showMessage(`Город ${cityName} добавлен`, "success");
         
     } catch (error) {
-        //silent error handling тк не загрузилось и ладно
+        // silent error handling тоже
     }
     
-    select.value = '';
+    cityInput.value = '';
+    if (autocompleteList) {
+        autocompleteList.style.display = 'none';
+    }
     updateEmptyState();
+}
+
+
+
+
+function setupCityAutocomplete() {
+    const cityInput = document.getElementById('city-input');
+    const autocompleteList = document.getElementById('autocomplete-list');
+    const addCityBtn = document.getElementById('add-city-btn');
+    
+    if (!cityInput || !autocompleteList || !addCityBtn) {
+        console.error('Элементы автодополнения не найдены');
+        return;
+    }
+
+    while (autocompleteList.firstChild) {
+        autocompleteList.removeChild(autocompleteList.firstChild);
+    }
+    autocompleteList.style.display = 'none';
+    
+
+    cityInput.addEventListener('input', function() {
+        const inputValue = this.value.trim();
+
+        while (autocompleteList.firstChild) {
+            autocompleteList.removeChild(autocompleteList.firstChild);
+        }
+        autocompleteList.style.display = 'none';
+        
+        if (inputValue.length === 0) return;
+        
+
+        const matchingCities = Object.keys(CityData.cityCoordinates).filter(city => 
+            city.toLowerCase().includes(inputValue.toLowerCase())
+        );
+        
+        if (matchingCities.length > 0) {
+            
+            matchingCities.forEach(city => {
+                const item = document.createElement('div');
+                item.className = 'autocomplete-item';
+                item.textContent = city;
+                item.dataset.city = city;
+                
+                item.addEventListener('click', function() {
+                    cityInput.value = this.dataset.city;
+                    autocompleteList.style.display = 'none';
+                });
+                
+                autocompleteList.appendChild(item);
+            });
+            
+            autocompleteList.style.display = 'block';
+        } else {
+
+            const item = document.createElement('div');
+            item.className = 'autocomplete-item disabled';
+            item.textContent = 'Данный город не поддерживается';
+            autocompleteList.appendChild(item);
+            autocompleteList.style.display = 'block';
+        }
+    });
+
+    document.addEventListener('click', function(event) {
+        const citySelectContainer = document.querySelector('.city-form');
+        if (!citySelectContainer.contains(event.target)) {
+            autocompleteList.style.display = 'none';
+        }
+    });
+
+    addCityBtn.addEventListener('click', async function() {
+        await addCityWithAutocomplete();
+    });
+
+    cityInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            addCityBtn.click();
+        }
+    });
 }
 
 
@@ -666,17 +752,15 @@ function getWeatherIcon(code) {
 
 
 function initApp() {
+    setupCityAutocomplete();
     
-    const addCityBtn = document.getElementById('add-city-btn');
-    if (addCityBtn) {
-        addCityBtn.addEventListener('click', addCity);
-    }
+    loadAddedCities();
     
     const updateBtn = document.getElementById('update-btn');
     if (updateBtn) {
         updateBtn.addEventListener('click', updateAllWeather);
     }
-    
+
     
     loadAddedCities();
     
@@ -686,4 +770,3 @@ function initApp() {
 }
 
 window.addEventListener('DOMContentLoaded', initApp);
-//добавляю текст чтобы еще раз закоммитить

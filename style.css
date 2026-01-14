@@ -135,6 +135,68 @@ h1 i {
     margin: 10px 0;
 }
 
+.autocomplete-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.city-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+    background: white;
+}
+
+.city-input:focus {
+    border-color: #3498db;
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: none;
+    margin-top: 2px;
+}
+
+.autocomplete-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.autocomplete-item:hover {
+    background-color: #f5f5f5;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item.disabled {
+    color: #999;
+    cursor: not-allowed;
+}
+
+.autocomplete-item.disabled:hover {
+    background-color: white;
+}
+
+
 .add-city-section {
     background: #f8f9fa;
     border-radius: 15px;
@@ -158,19 +220,9 @@ h1 i {
     margin-bottom: 25px;
 }
 
-.city-select {
-    flex: 1;
-    padding: 12px 15px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s ease;
-}
 
-.city-select:focus {
-    border-color: #3498db;
-}
+
+
 
 .add-btn {
     background: linear-gradient(135deg, #2ecc71, #27ae60);
@@ -395,6 +447,16 @@ h1 i {
     .controls {
         flex-direction: column;
     }
+    
+    .city-input {
+        padding: 11px 14px;
+        font-size: 0.95rem;
+    }
+    
+    .autocomplete-item {
+        padding: 9px 11px;
+        font-size: 13px;
+    }
 }
 
 
@@ -468,10 +530,7 @@ h1 i {
         margin-bottom: 22px;
     }
     
-    .city-select {
-        padding: 11px 14px;
-        font-size: 0.95rem;
-    }
+   
     
     .add-btn {
         padding: 11px 22px;
@@ -612,10 +671,7 @@ h1 i {
         margin-bottom: 20px;
     }
     
-    .city-select {
-        padding: 10px 12px;
-        font-size: 0.9rem;
-    }
+  
     
     .add-btn {
         padding: 10px 20px;
