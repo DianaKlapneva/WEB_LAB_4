@@ -686,3 +686,4 @@ function initApp() {
 }
 
 window.addEventListener('DOMContentLoaded', initApp);
+//добавляю текст чтобы еще раз закоммитить
