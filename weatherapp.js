@@ -54,7 +54,7 @@ async function getWeather() {
 function getCurrentPositionWithTimeout() {
     return new Promise((resolve, reject) => {
         if (!navigator.geolocation) {
-            reject(new Error("Браузер не поддерживает геолокацию"));
+            reject(new Error("Браузер не поддерживает геолокацию"));//теперь нет в console.log но пусть будет
             return;
         }
         
@@ -68,7 +68,7 @@ function getCurrentPositionWithTimeout() {
         
         const error = (err) => {
             clearTimeout(timeoutId);
-            reject(new Error("Геолокация отклонена"));
+            reject(new Error("Геолокация отклонена"));//теперь нет в console.log но пусть будет
         };
 
         navigator.geolocation.getCurrentPosition(
@@ -78,7 +78,7 @@ function getCurrentPositionWithTimeout() {
         );
         
         timeoutId = setTimeout(() => {
-            reject(new Error('Таймаут геолокации'));
+            reject(new Error('Таймаут геолокации'));//теперь нет в console.log но пусть будет
         }, TIMEOUT + 1000);
     });
 }
